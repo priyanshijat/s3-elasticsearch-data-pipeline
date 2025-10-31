@@ -31,6 +31,12 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
 | **Elasticsearch / OpenSearch** | Stores and indexes the latest data for fast search and visualization |
 
 -----------
+
+### Prerequisites
+- AWS Account with S3, Glue, Athena access
+- Elasticsearch cluster
+- Python 3.8+
+------ 
 2️⃣ Generate and Upload Partitioned Data to S3Upload to S3:
 
 ``` 
