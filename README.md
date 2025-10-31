@@ -17,6 +17,12 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
                                                   +----------------+
                                                   | Elasticsearch  |
                                                   +----------------+
+                                                           |
+                                                           v
+                                                  +----------------+
+                                                  |     Kibana     |
+                                                  +----------------+
+
 
 ---
 
@@ -29,6 +35,7 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
 | **AWS Athena** | Queries partitioned S3 data efficiently |
 | **AWS Glue Job / Python Script** | Loads only the latest partition’s data into Elasticsearch |
 | **Elasticsearch / OpenSearch** | Stores and indexes the latest data for fast search and visualization |
+| **Kibana** | connects to Elasticsearch to visualize real-time indexed data.|
 
 -----------
 
@@ -129,3 +136,47 @@ Test in Elasticsearch:
 curl -X GET "http://<your-vm-public-ip>:9200/incremental_data/_search?pretty"
 ```
 ----------------------------------------------------------
+
+### 8️⃣ Visualize Data in Kibana Dashboard
+
+After successfully transferring data from AWS Glue to Elasticsearch, you can use **Kibana** (or **OpenSearch Dashboards**) to visualize and explore the indexed data.
+
+#### 🧭 Install and Start Kibana
+On the same VM (or a different one that can access Elasticsearch):
+
+```
+sudo apt update
+sudo apt install kibana
+sudo systemctl enable kibana
+sudo systemctl start kibana
+```
+
+
+Open the configuration file:
+
+```
+sudo nano /etc/kibana/kibana.yml
+```
+
+Uncomment and edit the following lines to connect Kibana with your Elasticsearch instance:
+```
+server.port: 5601
+server.host: "0.0.0.0"
+elasticsearch.hosts: ["http://<your-vm-public-ip>:9200"]
+```
+
+Restart the Kibana service:
+```
+sudo systemctl restart kibana
+```
+
+🌐 Access Kibana Dashboard
+
+Open your browser and visit:
+```
+http://<your-vm-public-ip>:5601
+```
+
+You should now see the Kibana Home Page 🎉
+
+
