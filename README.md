@@ -30,21 +30,13 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
 | **AWS Glue Job / Python Script** | Loads only the latest partition’s data into Elasticsearch |
 | **Elasticsearch / OpenSearch** | Stores and indexes the latest data for fast search and visualization |
 
----
+-----------
+2️⃣ Generate and Upload Partitioned Data to S3Upload to S3:
 
-## 🧩 Step-by-Step Implementation
-
-### 1️⃣ Create an S3 Bucket
-```bash
-aws s3 mb s3://my-incremental-data-bucket
-s3://my-incremental-data-bucket/data/
-    ├── date=2025-01-01/
-    ├── date=2025-02-01/
-    ├── date=2025-03-01/
-    └── ...
-
-2️⃣ Generate and Upload Partitioned Data to S3
-Upload to S3:
+``` 
+aws s3 cp data/ s3://my-incremental-data-bucket/data/ --recursive
+```
+---------------------------------------------------------
 
 3️⃣ Create AWS Glue Database and Crawler
 
@@ -57,19 +49,26 @@ Target: Select or create a new Glue Database (e.g., incremental_db)
 Run the crawler
 ✅ A table appears in Glue Data Catalog (e.g., incremental_table)
 
+----------------------------------------------------------
 
 4️⃣ Verify Data in Athena
 
 Go to AWS Athena Query Editor and connect to your database.
 
-```sql
+```
 SELECT * FROM "incremental_db"."incremental_table" LIMIT 10;
+```
+```
 SHOW PARTITIONS "incremental_db"."incremental_table";
-
+```
 
 If partitions are missing, repair them:
 
-`MSCK REPAIR TABLE incremental_db.incremental_table;`
+```
+MSCK REPAIR TABLE incremental_db.incremental_table;
+```
+
+----------------------------------------------------------
 
 5️⃣ Create a Glue ETL Job to Load Data into Elasticsearch
 
@@ -77,28 +76,37 @@ Go to AWS Glue → Jobs → Create Job
 
 Choose a Python shell job
 
+Add the following ETL script (example):
+
+----------------------------------------------------------
+
 6️⃣ Setup Elasticsearch on a Virtual Machine
 
 On your VM:
-
-`sudo apt update`
-`sudo apt install elasticsearch`
-`sudo systemctl enable elasticsearch`
-`sudo systemctl start elasticsearch`
-
-
+```
+sudo apt update
+sudo apt install elasticsearch
+sudo systemctl enable elasticsearch
+sudo systemctl start elasticsearch
+```
 Edit the config file:
+```
+sudo nano /etc/elasticsearch/elasticsearch.yml
+```
 
-`sudo nano /etc/elasticsearch/elasticsearch.yml`
-`Uncomment and set:
-
+Uncomment and set:
+```
 network.host: 0.0.0.0
-discovery.type: single-node`
+discovery.type: single-node
+```
 
+Restart service:
+```
+sudo systemctl restart elasticsearch
+```
 
-`Restart service:`
+----------------------------------------------------------
 
-`sudo systemctl restart elasticsearch`
 
 7️⃣ Test the End-to-End Flow
 
@@ -109,5 +117,7 @@ Run Athena query → Verify partitioned data
 Run Glue ETL job → Uploads only latest month’s partition to Elasticsearch
 
 Test in Elasticsearch:
-
-`curl -X GET "http://<your-vm-public-ip>:9200/incremental_data/_search?pretty"`
+```
+curl -X GET "http://<your-vm-public-ip>:9200/incremental_data/_search?pretty"
+```
+----------------------------------------------------------
