@@ -62,14 +62,14 @@ Run the crawler
 
 Go to AWS Athena Query Editor and connect to your database.
 
-SELECT * FROM "incremental_db"."incremental_table" LIMIT 10;
+`SELECT * FROM "incremental_db"."incremental_table" LIMIT 10;`
 
-SHOW PARTITIONS "incremental_db"."incremental_table";
+`SHOW PARTITIONS "incremental_db"."incremental_table";`
 
 
 If partitions are missing, repair them:
 
-MSCK REPAIR TABLE incremental_db.incremental_table;
+`MSCK REPAIR TABLE incremental_db.incremental_table;`
 
 5️⃣ Create a Glue ETL Job to Load Data into Elasticsearch
 
@@ -81,24 +81,24 @@ Choose a Python shell job
 
 On your VM:
 
-sudo apt update
-sudo apt install elasticsearch
-sudo systemctl enable elasticsearch
-sudo systemctl start elasticsearch
+`sudo apt update`
+`sudo apt install elasticsearch`
+`sudo systemctl enable elasticsearch`
+`sudo systemctl start elasticsearch`
 
 
 Edit the config file:
 
-sudo nano /etc/elasticsearch/elasticsearch.yml
-Uncomment and set:
+`sudo nano /etc/elasticsearch/elasticsearch.yml`
+`Uncomment and set:
 
 network.host: 0.0.0.0
-discovery.type: single-node
+discovery.type: single-node`
 
 
-Restart service:
+`Restart service:`
 
-sudo systemctl restart elasticsearch
+`sudo systemctl restart elasticsearch`
 
 7️⃣ Test the End-to-End Flow
 
@@ -110,4 +110,4 @@ Run Glue ETL job → Uploads only latest month’s partition to Elasticsearch
 
 Test in Elasticsearch:
 
-curl -X GET "http://<your-vm-public-ip>:9200/incremental_data/_search?pretty"
+`curl -X GET "http://<your-vm-public-ip>:9200/incremental_data/_search?pretty"`
