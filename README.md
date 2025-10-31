@@ -3,7 +3,7 @@
 ## 🧭 Overview
 This project builds an **end-to-end incremental data pipeline** that transfers **partitioned data** from **Amazon S3** to **Elasticsearch**, using **AWS Glue** and **Athena** for schema discovery and querying.  
 
-It demonstrates how to **load only the latest month’s data** into Elasticsearch while keeping **historical data** safely stored in S3 for analytics — optimizing cost, performance, and scalability.
+It demonstrates how to **load only the latest month’s data** into Elasticsearch while keeping **Existing data** safely stored in S3 for analytics — optimizing cost, performance, and scalability.
 
 ---
 
