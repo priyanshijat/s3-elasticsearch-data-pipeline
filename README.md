@@ -62,9 +62,9 @@ Run the crawler
 
 Go to AWS Athena Query Editor and connect to your database.
 
-```SELECT * FROM "incremental_db"."incremental_table" LIMIT 10;```
-
-```SHOW PARTITIONS "incremental_db"."incremental_table";```
+```sql
+SELECT * FROM "incremental_db"."incremental_table" LIMIT 10;
+SHOW PARTITIONS "incremental_db"."incremental_table";
 
 
 If partitions are missing, repair them:
