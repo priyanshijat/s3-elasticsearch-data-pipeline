@@ -37,6 +37,8 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
 - Elasticsearch cluster
 - Python 3.8+
 ------ 
+
+
 2️⃣ Generate and Upload Partitioned Data to S3Upload to S3:
 
 ``` 
