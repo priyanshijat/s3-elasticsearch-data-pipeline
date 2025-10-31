@@ -46,7 +46,8 @@ It demonstrates how to **load only the latest month’s data** into Elasticsearc
 ------ 
 
 
-2️⃣ Generate and Upload Partitioned Data to S3Upload to S3:
+2️⃣ Generate and Upload Data to S3
+Upload to S3:
 
 ``` 
 aws s3 cp data/ s3://my-incremental-data-bucket/data/ --recursive
@@ -55,11 +56,10 @@ aws s3 cp data/ s3://my-incremental-data-bucket/data/ --recursive
 
 3️⃣ Create AWS Glue Database and Crawler
 
+Go to AWS Console → Glue → Database → create database
 Go to AWS Console → Glue → Crawlers → Create crawler
 
 Source: s3://my-incremental-data-bucket/data/
-
-Target: Select or create a new Glue Database (e.g., incremental_db)
 
 Run the crawler
 ✅ A table appears in Glue Data Catalog (e.g., incremental_table)
